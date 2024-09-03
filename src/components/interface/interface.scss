@@ -1,5 +1,5 @@
 .interface {
-	padding: 20px 0;
+  padding: 20px 0;
   height: 500px;
   width: 350px;
   background: linear-gradient(#90e0ef, #00b4d8);
@@ -7,65 +7,87 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-	flex-direction: column;
+  flex-direction: column;
   .search-bar {
-		height: 40px;
+    height: 40px;
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 15px;
 
     &-input {
-			width: 180px;
+      width: 180px;
       background-color: transparent;
       border: 1px solid;
       border-radius: 50px;
       padding-left: 20px;
-			color: #fff;
-			outline: none;
+      color: #fff;
+      outline: none;
     }
-		&-input::placeholder{
-			color: #fff;
-			font-size: 14px;
-		}
+    &-input::placeholder {
+      color: #fff;
+      font-size: 14px;
+    }
 
     &-button {
-			width: 40px;
+      width: 40px;
       background-color: transparent;
       border: 1px solid;
       border-radius: 50px;
       text-align: center;
-			padding: 10px;
-			outline: none;
+      padding: 10px;
+      outline: none;
     }
   }
 
-	h2{
-		font-size: 32px;
-	}
-	&__icon{
-		width: 150px;
-		height: 150px;
-	}
+  h2 {
+    font-size: 36px;
+		line-height: 25px;
+  }
+  &__icon {
+    width: 150px;
+    height: 150px;
+    margin-top: -15px;
+  }
 
-	&__temperature{
-		padding: 0;
-		font-size: 30px;
-		display: flex;
-		flex-direction: column;
+  &__temperature {
+    padding: 0;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
 
-		&-value{
-			font-weight: 900;
-		}
-		&-clouds{
-			margin-top: -10px;
-		}
-	}
-	&__info{
-		width: 85%;
-		height: 70px;
-		border-radius: 10px;
-		background-color: #caf0f8;
-		color: #0077b6;
-	}
+    &-value {
+      font-weight: 900;
+    }
+    &-clouds {
+      margin-top: -10px;
+    }
+  }
+  &__info {
+    width: 85%;
+    height: 70px;
+    border-radius: 10px;
+    background-color: #caf0f8;
+    color: #008eab;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    &-block {
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+
+      &__icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      &__stats {
+        display: flex;
+        flex-direction: column;
+        line-height: 20px;
+      }
+    }
+  }
 }
