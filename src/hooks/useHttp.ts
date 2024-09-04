@@ -11,6 +11,7 @@ export default function useHttp() {
       return data;
     } catch (err) {
 			console.log("Error fetching data:", err);
+			alert("Incorrect city name")
       throw err;
     }
   }, []);

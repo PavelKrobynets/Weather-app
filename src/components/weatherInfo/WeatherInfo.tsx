@@ -2,7 +2,7 @@ import { WiHumidity } from "react-icons/wi";
 import { LuWind } from "react-icons/lu";
 
 
-export default function WeatherInfo({humidity, windSpeed}: {humidity: number, windSpeed: number}) { 
+export default function WeatherInfo({humidity, wind}: {humidity: number, wind: number}) { 
 	return (
 		<div className="interface__info">
         <div className="interface__info-block">
@@ -18,7 +18,7 @@ export default function WeatherInfo({humidity, windSpeed}: {humidity: number, wi
           <LuWind className="interface__info-block__icon" />
           <div className="interface__info-block__stats">
             <span className="interface__info-block-value">
-              {windSpeed}km/h
+              {wind}km/h
             </span>
             <span className="interface__info-block-label">Speed</span>
           </div>

@@ -1,42 +1,29 @@
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import WeatherTemp from "../weatherTemp/WeatherTemp";
 import WeatherInfo from "../weatherInfo/WeatherInfo";
-import useHttp from "../../hooks/useHttp";
+import WeatherService from "../../services/WeatherService";
 import { useRef, useState, useEffect, useCallback } from "react";
 import "./interface.scss";
 
 export default function Interface() {
-  const { fetchWeather } = useHttp();
+  const { fetchWeather } = WeatherService();
   const [weatherData, setWeatherData] = useState({
-    city: "",
-    temperature: 0,
-    humidity: 0,
-    windSpeed: 0,
-  });
+		city: '',
+		temperature: 0,
+		humidity: 0,
+		wind: 0,
+		description: '',
+		icon: '',
+	});
   const inputCity = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    fetchWeather("Uzhhorod").then((data) =>
-      setWeatherData({
-        city: data.name,
-        temperature: data.main.temp,
-        humidity: data.main.humidity,
-        windSpeed: data.wind.speed,
-      })
-    );
+    fetchWeather("Uzhhorod").then(setWeatherData);
   }, []);
 
   const onSearch = useCallback(() => {
     if (inputCity.current && inputCity.current.value != "") {
-      const city = inputCity.current?.value as string;
-      fetchWeather(city).then((data) =>
-        setWeatherData({
-          city: data.name,
-          temperature: data.main.temp,
-          humidity: data.main.humidity,
-          windSpeed: data.wind.speed,
-        })
-      );
+      fetchWeather(inputCity.current.value).then(setWeatherData);
     }
   }, [fetchWeather]);
 
@@ -53,8 +40,8 @@ export default function Interface() {
           <FaMagnifyingGlass />
         </button>
       </div>
-      <WeatherTemp {...weatherData}/>
-      <WeatherInfo {...weatherData}/>
+      <WeatherTemp {...weatherData} />
+      <WeatherInfo {...weatherData} />
     </div>
   );
 }
