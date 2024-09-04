@@ -1,22 +1,45 @@
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import icon from "../../assets/cloudy.png";
-import { WiHumidity } from "react-icons/wi";
-import { LuWind } from "react-icons/lu";
-import  useHttp  from "../../hooks/useHttp";
-import { useRef } from "react";
+import WeatherTemp from "../weatherTemp/WeatherTemp";
+import WeatherInfo from "../weatherInfo/WeatherInfo";
+import useHttp from "../../hooks/useHttp";
+import { useRef, useState, useEffect, useCallback } from "react";
 import "./interface.scss";
 
 export default function Interface() {
-	const {fetchWeather} = useHttp();
-	const inputCity = useRef(null)
+  const { fetchWeather } = useHttp();
+  const [weatherData, setWeatherData] = useState({
+    city: "",
+    temperature: 0,
+    humidity: 0,
+    windSpeed: 0,
+  });
+  const inputCity = useRef<HTMLInputElement>(null);
 
-	const onSearch = () =>{
-		if(inputCity.current.value){
-			const city = inputCity.current.value;
-		fetchWeather(city)
-		.then()
-		}
-	}
+  useEffect(() => {
+    fetchWeather("Uzhhorod").then((data) =>
+      setWeatherData({
+        city: data.name,
+        temperature: data.main.temp,
+        humidity: data.main.humidity,
+        windSpeed: data.wind.speed,
+      })
+    );
+  }, []);
+
+  const onSearch = useCallback(() => {
+    if (inputCity.current && inputCity.current.value != "") {
+      const city = inputCity.current?.value as string;
+      fetchWeather(city).then((data) =>
+        setWeatherData({
+          city: data.name,
+          temperature: data.main.temp,
+          humidity: data.main.humidity,
+          windSpeed: data.wind.speed,
+        })
+      );
+    }
+  }, [fetchWeather]);
+
   return (
     <div className="interface">
       <div className="search-bar">
@@ -24,36 +47,14 @@ export default function Interface() {
           type="text"
           placeholder="Enter city name"
           className="search-bar-input"
-					ref={inputCity}
+          ref={inputCity}
         />
-        <button className="search-bar-button"
-				onClick={onSearch}
-				>
+        <button className="search-bar-button" onClick={onSearch}>
           <FaMagnifyingGlass />
         </button>
       </div>
-      <h2>Uzhhorod</h2>
-      <img src={icon} alt="weather-icon" className="interface__icon" />
-      <div className="interface__temperature">
-        <span className="interface__temperature-value">22°C</span>
-        <span className="interface__temperature-clouds">Clouds</span>
-      </div>
-      <div className="interface__info">
-        <div className="interface__info-block">
-          <WiHumidity className="interface__info-block__icon" />
-          <div className="interface__info-block__stats">
-            <span className="interface__info-block-value">60%</span>
-            <span className="interface__info-block-label">Humidity</span>
-          </div>
-        </div>
-        <div className="interface__info-block">
-          <LuWind className="interface__info-block__icon" />
-          <div className="interface__info-block__stats">
-            <span className="interface__info-block-value">60km/h</span>
-            <span className="interface__info-block-label">Speed</span>
-          </div>
-        </div>
-      </div>
+      <WeatherTemp {...weatherData}/>
+      <WeatherInfo {...weatherData}/>
     </div>
   );
 }
