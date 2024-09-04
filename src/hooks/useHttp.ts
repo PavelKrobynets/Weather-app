@@ -1,15 +1,19 @@
-
+import { useCallback } from "react";
 
 export default function useHttp() {
-  const api_key: string = "dac2d47ecea599c78eda18e68d8295fb";
-  const url = "https://api.openweathermap.org/data/2.5/weather?";
+  const request = useCallback(async (url: string) => {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+			console.log("Error fetching data:", err);
+      throw err;
+    }
+  }, []);
 
-	const fetchWeather = async (city: string) => {
-		const response = await fetch(`${url}q=${city}&appid=${api_key}&units=metric`);
-		const data = await response.json();
-		return data;
-	}
-
-	return { fetchWeather }
+	return {request};
 }
-
